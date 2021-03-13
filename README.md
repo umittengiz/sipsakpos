@@ -1,1 +1,1 @@
-Şipşak preprod
+Şipşak prod
