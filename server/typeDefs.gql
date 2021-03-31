@@ -1,0 +1,175 @@
+type User {
+  _id: ID
+  firstName: String
+  lastName: String
+  active: Boolean
+}
+
+type AttributeOption {
+  _id: ID
+  name: String! @unique trim
+  attribute: Attribute!
+}
+
+type AttributeSet {
+  _id: ID
+  name: String! @unique trim
+  attribute: Attribute!
+}
+
+type Attribute {
+  _id: ID
+  name: String! @unique trim
+  type: String!
+  visibility: String!
+}
+
+type Batch {
+  _id: ID
+  code: String! @unique
+  lot: Int! @unique
+  product: Product!
+}
+
+type CatalogPriceRulesMovement {
+  _id: ID
+  name: String! @unique
+  
+}
+
+type CatalogPriceRule {
+  _id: ID
+  product: Product!
+  currencyId: Currency!
+}
+
+type Currency {
+  _id: ID
+  name: String! @unique trim
+  sign: String
+  abbreviation: String! @unique
+}
+
+type Order {
+  _id: ID
+  orderNumber: Int! @unique
+  staff: Staff!
+  table: Table!
+  product: Product!
+  qty: Int!
+  qtyReceived: Int!
+  qtyDelivered: Int!
+  qtyCanceled: Int!
+  status: Int!
+  attribute: Attribute!
+}
+
+type ProductImage {
+  _id: ID
+  product: Product!
+  imageUrl: String!
+}
+
+type ProductPrice {
+  _id: ID
+  product: Product!
+  currency: Currency!
+  salePrice: Double
+  normalPrice: Double!
+  costPrice: Double
+}
+
+type Product {
+  _id: ID
+  sku: String! @unique
+  barcode: Int!
+  name: String!
+  amount: Double!
+  unit: Unit!
+  images: [ProductImage]
+  active: Boolean!
+  deletedAt: Date.now()
+}
+
+type Role {
+  _id: ID
+  name: String!
+}
+
+type Shift {
+  _id: ID
+  name: String!
+}
+
+type StaffAuthorization {
+  _id: ID
+  name: String!
+}
+
+type Staff {
+  _id: ID
+  firstName: String! trim
+  lastName: String! trim
+  email: String @unique trim
+  role: Role!
+}
+
+type Supplier {
+  _id: ID
+  name: String!
+  firstName: String! trim
+  lastName: String! trim
+  email: String @unique trim
+  phoneNumber: Int
+}
+
+type Table {
+  _id: ID
+  name: String
+  location: String!
+  order: Int!
+}
+
+type Tax {
+  _id: ID
+  name: String! @unique
+  percentage: Double!
+}
+
+type Units {
+  _id: ID
+  name: String! @unique
+}
+
+type WarehouseMovement {
+  _id: ID
+  warehouse: Warehouse!
+  product: Product!
+  batch: Batch!
+  amount: Double!
+  unit: Unit!
+  tax: Tax!
+}
+
+type Warehouse {
+  _id: ID
+  name: String!
+  address: String
+  phoneNumber: Int
+}
+
+type Query {
+  Users: [User]
+}
+
+type Mutation {
+  addUser(firstName: String, lastName: String, active: Boolean): User
+  addPost(
+    title: String!
+    imageUrl: String!
+    categories: [String]!
+    description: String!
+    creatorId: ID!
+  ): Post!
+  signupUser(username: String!, email: String!, password: String!): User!
+}
